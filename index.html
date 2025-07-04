@@ -1,68 +1,56 @@
+from pathlib import Path
+
+# Nuevo contenido HTML con ajustes de posición para los indicadores
+html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estado de Puertas - Nave 2</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monitoreo Puertas y Ventanas</title>
   <style>
     body {
       margin: 0;
-      background: #000;
-      font-family: sans-serif;
-      position: relative;
+      background: url('https://i.postimg.cc/VLJ28D37/PLno-1.jpg') no-repeat center center fixed;
+      background-size: cover;
     }
-    #plano {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .led {
+    .indicator {
+      position: absolute;
       width: 20px;
       height: 20px;
+      background-color: green;
       border-radius: 50%;
-      background: grey;
-      position: absolute;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      border: 2px solid white;
+      box-shadow: 0 0 5px black;
     }
+    /* Puertas */
+    #p1 { top: 72%; left: 95.5%; }
+    #p2 { top: 19%; left: 17%; }
+    #p3 { top: 88.5%; left: 5.3%; }
+    /* Ventanas sobre los números */
+    #v1_1 { bottom: 6.5%; left: 85%; }
+    #v1_2 { bottom: 6.5%; left: 89%; }
+    #v2_1 { bottom: 6.5%; left: 70%; }
+    #v2_2 { bottom: 6.5%; left: 74%; }
+    #v3_1 { bottom: 6.5%; left: 55%; }
+    #v3_2 { bottom: 6.5%; left: 59%; }
   </style>
 </head>
 <body>
-  <img id="plano" src="https://i.postimg.cc/VLJ28D37/PLno-1.jpg" alt="Plano">
-
-  <div id="puerta1" class="led" style="top: 50%; right: 5%;"></div>
-  <div id="puerta2" class="led" style="top: 5%; left: 25%;"></div>
-  <div id="puerta3" class="led" style="top: 55%; left: 5%;"></div>
-  <div id="puerta4" class="led" style="bottom: 15%; right: 0%;"></div>
-  <div id="puerta5" class="led" style="bottom: 15%; right: 10%;"></div>
-  <div id="puerta6" class="led" style="bottom: 15%; right: 20%;"></div>
-  <div id="puerta7" class="led" style="bottom: 15%; right: 30%;"></div>
-  <div id="puerta8" class="led" style="bottom: 15%; right: 40%;"></div>
-  <div id="puerta9" class="led" style="bottom: 15%; right: 50%;"></div>
-
-  <script>
-    const username = "Monitoreo_nave2";
-    const key = "aio_wjeo12dzghgxXVQ6LX8m5I8K3ssE";
-    const feeds = [
-      "puerta1", "puerta2", "puerta3",
-      "puerta4", "puerta5", "puerta6",
-      "puerta7", "puerta8", "puerta9"
-    ];
-
-    async function updateLEDs() {
-      for (let i = 0; i < feeds.length; i++) {
-        const res = await fetch(`https://io.adafruit.com/api/v2/${username}/feeds/${feeds[i]}/data/last`, {
-          headers: { "X-AIO-Key": key }
-        });
-        const data = await res.json();
-        const valor = data.value;
-        const led = document.getElementById(feeds[i]);
-        led.style.background = valor === "1" ? "red" : "green";
-      }
-    }
-
-    updateLEDs();
-    setInterval(updateLEDs, 10000);
-  </script>
+  <div class="indicator" id="p1"></div>
+  <div class="indicator" id="p2"></div>
+  <div class="indicator" id="p3"></div>
+  <div class="indicator" id="v1_1"></div>
+  <div class="indicator" id="v1_2"></div>
+  <div class="indicator" id="v2_1"></div>
+  <div class="indicator" id="v2_2"></div>
+  <div class="indicator" id="v3_1"></div>
+  <div class="indicator" id="v3_2"></div>
 </body>
 </html>
+"""
+
+# Guardar como index.html
+output_path = Path("/mnt/data/index.html")
+output_path.write_text(html_content, encoding="utf-8")
+output_path
+
